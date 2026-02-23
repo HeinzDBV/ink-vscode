@@ -2,7 +2,7 @@
     "name": "inkle-vscode",
     "displayName": "inkle-vscode",
     "description": "Inkle's Ink scripting language support for Visual Studio Code, forked from ink-vscode.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "repository": {
         "type": "git",
         "url": "https://github.com/RenderBr/ink-vscode.git"
@@ -14,7 +14,7 @@
     "license": "MIT",
     "publisher": "rageave",
     "engines": {
-        "vscode": "^1.98.0"
+        "vscode": "^1.109.0"
     },
     "categories": [
         "Programming Languages"
@@ -67,11 +67,11 @@
         "watch": "tsup --watch"
     },
     "devDependencies": {
-        "@types/node": "^22.13.13",
-        "tsup": "^8.4.0",
-        "typescript": "^5.8.2"
+        "@types/node": "^25.3.0",
+        "tsup": "^8.5.1",
+        "typescript": "^5.9.3"
     },
     "dependencies": {
-        "@types/vscode": "^1.98.0"
+        "@types/vscode": "^1.109.0"
     }
 }

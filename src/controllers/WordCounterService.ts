@@ -19,7 +19,7 @@ export class WordCounterService {
         const editor = window.activeTextEditor;
         if (!editor) 
         {
-            this._statusBarItem.hide();
+            this._statusBarItem?.hide();
             return;
         }
 
@@ -27,7 +27,7 @@ export class WordCounterService {
         const doc = editor.document;
         if (doc.languageId !== "ink") 
         {
-            this._statusBarItem.hide();
+            this._statusBarItem?.hide();
             return;
         }
 
@@ -125,6 +125,6 @@ export class WordCounterService {
 
     public dispose() 
     {
-        this._statusBarItem.dispose();
+        this._statusBarItem?.dispose();
     }
 }

@@ -349,9 +349,7 @@ function getDefinitionByNameAndScope(name, filePath, line) {
       if (target) break;
     }
   }
-  if (!target) {
-    throw new Error(`No divert target named '${name}' found in scope at ${filePath}:${line}`);
-  }
+  if (!target) return;
   return new import_vscode4.Location(import_vscode4.Uri.file(target.parentFile.filePath), new import_vscode4.Position(target.line, 0));
 }
 
@@ -361,12 +359,17 @@ var InkDivertDefinitionProvider = class _InkDivertDefinitionProvider {
     this.divertRegex = /->\s*([\w.]+)/;
   }
   provideDefinition(document, position) {
-    const lineText = document.lineAt(position.line).text;
-    const cursorPos = position.character;
-    const match = _InkDivertDefinitionProvider.divertRegex.exec(lineText.slice(0, cursorPos) + lineText.slice(cursorPos));
-    if (!match) return;
-    const [target] = match[1].split(".");
-    return getDefinitionByNameAndScope(target, document.uri.fsPath, position.line);
+    try {
+      const lineText = document.lineAt(position.line).text;
+      const cursorPos = position.character;
+      const match = _InkDivertDefinitionProvider.divertRegex.exec(lineText.slice(0, cursorPos) + lineText.slice(cursorPos));
+      if (!match) return;
+      const [target] = match[1].split(".");
+      return getDefinitionByNameAndScope(target, document.uri.fsPath, position.line);
+    } catch (err) {
+      console.error("Ink divert definition failed:", err);
+      return;
+    }
   }
 };
 
@@ -499,14 +502,19 @@ var InkFunctionDefinitionProvider = class _InkFunctionDefinitionProvider {
     this.functionCallRegex = /\b([\w]+)\s*/;
   }
   provideDefinition(document, position) {
-    const lineText = document.lineAt(position.line).text;
-    if (!lineText.trimStart().startsWith("~")) return;
-    const match = _InkFunctionDefinitionProvider.functionCallRegex.exec(lineText);
-    if (!match) return;
-    const functionName = match[1];
-    const result = getFunctionDefinitionByName(functionName, document.uri.fsPath);
-    if (!result) return;
-    return new import_vscode5.Location(import_vscode5.Uri.file(result.filePath), new import_vscode5.Position(result.line, 0));
+    try {
+      const lineText = document.lineAt(position.line).text;
+      if (!lineText.trimStart().startsWith("~")) return;
+      const match = _InkFunctionDefinitionProvider.functionCallRegex.exec(lineText);
+      if (!match) return;
+      const functionName = match[1];
+      const result = getFunctionDefinitionByName(functionName, document.uri.fsPath);
+      if (!result) return;
+      return new import_vscode5.Location(import_vscode5.Uri.file(result.filePath), new import_vscode5.Position(result.line, 0));
+    } catch (err) {
+      console.error("Ink function definition failed:", err);
+      return;
+    }
   }
 };
 
@@ -534,13 +542,18 @@ var DivertCompletionProvider = class _DivertCompletionProvider {
 var import_vscode7 = require("vscode");
 var InkVariableDefinitionProvider = class {
   provideDefinition(document, position) {
-    const wordRange = document.getWordRangeAtPosition(position);
-    if (!wordRange) return;
-    const variableName = document.getText(wordRange);
-    if (!variableName) return;
-    const result = getVariableDefinitionByName(variableName, document.uri.fsPath);
-    if (!result) return;
-    return new import_vscode7.Location(import_vscode7.Uri.file(result.filePath), new import_vscode7.Position(result.line, 0));
+    try {
+      const wordRange = document.getWordRangeAtPosition(position);
+      if (!wordRange) return;
+      const variableName = document.getText(wordRange);
+      if (!variableName) return;
+      const result = getVariableDefinitionByName(variableName, document.uri.fsPath);
+      if (!result) return;
+      return new import_vscode7.Location(import_vscode7.Uri.file(result.filePath), new import_vscode7.Position(result.line, 0));
+    } catch (err) {
+      console.error("Ink variable definition failed:", err);
+      return;
+    }
   }
 };
 
@@ -573,12 +586,12 @@ var WordCounterService = class {
   updateWordCount() {
     const editor = import_vscode9.window.activeTextEditor;
     if (!editor) {
-      this._statusBarItem.hide();
+      this._statusBarItem?.hide();
       return;
     }
     const doc = editor.document;
     if (doc.languageId !== "ink") {
-      this._statusBarItem.hide();
+      this._statusBarItem?.hide();
       return;
     }
     if (!this._statusBarItem) {
@@ -640,7 +653,7 @@ var WordCounterService = class {
     return docContent.split("\n").filter((line) => line.match(/^\s*=/)).length;
   }
   dispose() {
-    this._statusBarItem.dispose();
+    this._statusBarItem?.dispose();
   }
 };
 

@@ -94,7 +94,7 @@ function getDivertsInScope(filePath: string, line: number): DivertTarget[] {
 }
 
 // Gets a Location for a divert target by name in scope
-export function getDefinitionByNameAndScope(name: string, filePath: string, line: number): Location {
+export function getDefinitionByNameAndScope(name: string, filePath: string, line: number): Location | undefined {
     let target = getDivertsInScope(filePath, line).find(t => t.name === name);
 
     if (!target) {
@@ -104,9 +104,7 @@ export function getDefinitionByNameAndScope(name: string, filePath: string, line
         }
     }
 
-    if (!target) {
-        throw new Error(`No divert target named '${name}' found in scope at ${filePath}:${line}`);
-    }
+    if (!target) return;
 
     return new Location(Uri.file(target.parentFile.filePath), new Position(target.line, 0));
 }  

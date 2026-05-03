@@ -35,6 +35,51 @@
         "theme": "dark"
     },
     "contributes": {
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "inkExplorer",
+                    "title": "Ink",
+                    "icon": "./images/inky-icon.svg"
+                }
+            ]
+        },
+        "views": {
+            "inkExplorer": [
+                {
+                    "id": "inkKnotGraph",
+                    "name": "Knot Connections"
+                }
+            ]
+        },
+        "commands": [
+            {
+                "command": "ink.graph.refresh",
+                "title": "Refresh",
+                "icon": "$(refresh)",
+                "category": "Ink"
+            },
+            {
+                "command": "ink.graph.openVisual",
+                "title": "Open Visual Graph",
+                "icon": "$(type-hierarchy)",
+                "category": "Ink"
+            }
+        ],
+        "menus": {
+            "view/title": [
+                {
+                    "command": "ink.graph.refresh",
+                    "when": "view == inkKnotGraph",
+                    "group": "navigation"
+                },
+                {
+                    "command": "ink.graph.openVisual",
+                    "when": "view == inkKnotGraph",
+                    "group": "navigation"
+                }
+            ]
+        },
         "languages": [
             {
                 "id": "ink",
@@ -58,6 +103,12 @@
                 "language": "ink",
                 "scopeName": "source.ink",
                 "path": "./syntaxes/ink.tmLanguage"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "ink",
+                "path": "./snippets/ink.json"
             }
         ]
     },

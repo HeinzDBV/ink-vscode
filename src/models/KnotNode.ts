@@ -13,7 +13,7 @@ export class KnotNode extends DivertTarget {
         public readonly endLine: number,
         private readonly _parentFile: NodeMap,
         textContent: string,
-        private readonly isFunction: boolean = false,
+        public readonly isFunction: boolean = false,
         private readonly lastLine: boolean = false
     ) 
     {

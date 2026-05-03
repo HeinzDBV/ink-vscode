@@ -19,7 +19,7 @@ export class NodeMap {
     private _parseKnots(lines: string[]): KnotNode[] {
         const knots: KnotNode[] = [];
 
-        const headerRegex = /^\s*===(\s*function)?\s*(\w+)/;
+        const headerRegex = /^\s*===(\s*function)?\s*(\w+)\s*===/;
 
         let currentLines: string[] = [];
         let lastStart = 0;

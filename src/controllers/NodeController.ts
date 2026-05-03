@@ -107,23 +107,4 @@ export function getDefinitionByNameAndScope(name: string, filePath: string, line
     if (!target) return;
 
     return new Location(Uri.file(target.parentFile.filePath), new Position(target.line, 0));
-}
-
-// Returns the global node map store (read-only reference)
-export function getNodeMaps(): Record<string, NodeMap> {
-    return nodeMaps;
-}
-
-// Gets the DivertTarget node itself (for hover previews etc.)
-export function getNodeByNameAndScope(name: string, filePath: string, line: number): DivertTarget | undefined {
-    let target = getDivertsInScope(filePath, line).find(t => t.name === name);
-
-    if (!target) {
-        for (const key in nodeMaps) {
-            target = getDivertsInScope(key, line).find(t => t.name === name);
-            if (target) break;
-        }
-    }
-
-    return target;
 }  

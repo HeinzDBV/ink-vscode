@@ -34,7 +34,7 @@ export class StitchNode extends DivertTarget {
     }
 
     private _extractLabels(text: string): LabelNode[] {
-        const labelRegex = /^\s*(?:[-*+]\s*)+\((\w+)\)/;
+        const labelRegex = /^\s*[-*+]\s*\((\w+)\)/;
         const lines = text.split("\n");
         const labels: LabelNode[] = [];
 
